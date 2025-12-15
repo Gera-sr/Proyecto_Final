@@ -1,0 +1,91 @@
+:root {
+    --primary-color: #7d3947;
+    --secondary-color: #ccad7e;
+    --dark-color: #672432;
+    --light-bg: #f8f9fa;
+    --text-color: #333;
+    --soft-text: #444444;
+}
+
+body {
+    background-color: var(--light-bg);
+    color: var(--text-color);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.navbar-custom {
+    background-color: var(--primary-color);
+}
+
+.navbar-custom .navbar-brand,
+.navbar-custom .nav-link {
+    color: var(--secondary-color);
+    font-weight: bold;
+}
+
+.navbar-custom .nav-link:hover {
+    color: #fff;
+}
+
+.btn-primary-custom {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+    color: #fff;
+}
+
+.btn-primary-custom:hover {
+    background-color: var(--dark-color);
+    border-color: var(--dark-color);
+    color: #fff;
+}
+
+.btn-secondary-custom {
+    background-color: var(--secondary-color);
+    border-color: var(--secondary-color);
+    color: #fff;
+}
+
+.btn-secondary-custom:hover {
+    background-color: #b09b70;
+    border-color: #b09b70;
+    color: #fff;
+}
+
+.card-custom {
+    border: none;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    transition: transform 0.3s;
+}
+
+.card-custom:hover {
+    transform: translateY(-5px);
+}
+
+.card-header-custom {
+    background-color: var(--primary-color);
+    color: #fff;
+}
+
+footer {
+    background-color: var(--dark-color);
+    color: var(--secondary-color);
+    padding: 20px 0;
+    margin-top: 40px;
+}
+
+.hero-section {
+    background: linear-gradient(rgba(103, 36, 50, 0.8), rgba(103, 36, 50, 0.8)), url('../img/background_banner.png');
+    background-size: cover;
+    background-position: center;
+    color: #fff;
+    padding: 100px 0;
+    text-align: center;
+}
+
+.section-title {
+    color: var(--primary-color);
+    margin-bottom: 30px;
+    border-bottom: 3px solid var(--secondary-color);
+    display: inline-block;
+    padding-bottom: 10px;
+}
