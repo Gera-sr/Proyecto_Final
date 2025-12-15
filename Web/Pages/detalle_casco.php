@@ -1,7 +1,7 @@
 <?php
 session_start();
 require_once __DIR__ . '/../Includes/basiccrud.php';
-$dbConnCreator = new myConnexion('db', 'proyecto', 'angel', '1234', 3306);
+$dbConnCreator = new myConnexion('localhost', 'proyecto', 'root', '', 3306);
 $conn = $dbConnCreator->connect();
 
 $login_required = true;
@@ -105,7 +105,6 @@ if (!$casco) {
     <div class="container my-5">
         <div class="row">
             <div class="col-md-6">
-                <!-- Using placeholder if image broken or empty logic in HTML -->
                 <img src="<?php echo htmlspecialchars($casco['imagen'] ?? 'https://placehold.co/600x400?text=No+Image'); ?>"
                     class="img-fluid rounded shadow-sm" alt="<?php echo htmlspecialchars($casco['modelo']); ?>">
             </div>

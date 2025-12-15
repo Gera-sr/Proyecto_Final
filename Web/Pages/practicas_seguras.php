@@ -4,7 +4,6 @@ $login_required = true;
 $admin = false;
 if(isset($_SESSION["something"]))
 {
-    //Session started
     $login_required = false;
 }
 $user = "";
@@ -12,7 +11,6 @@ if(!$login_required)
 {
     $user = "CapinonM";
 }
-//TODO
 ?>
 
 <!DOCTYPE html>

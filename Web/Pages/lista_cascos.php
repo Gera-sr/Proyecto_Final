@@ -1,7 +1,7 @@
 <?php
 session_start();
 require_once __DIR__ . '/../Includes/basiccrud.php';
-$dbConnCreator = new myConnexion('db', 'proyecto', 'angel', '1234', 3306);
+$dbConnCreator = new myConnexion('localhost', 'proyecto', 'root', '', 3306);
 $conn = $dbConnCreator->connect();
 $login_required = true;
 $admin = false;
@@ -15,15 +15,12 @@ if (isset($_SESSION["user_id"])) {
     }
 }
 
-// Fetch helmets
-$cascos = [];
-if ($conn) {
-    $helper = new sqlHelper('Cascos', $conn);
-    // Simple fetch all or add filters later
-    // The UI implies pagination, but let's just fetch all/limit for now to make it work
-    $cascos = $helper->select();
-    if (!$cascos) $cascos = [];
-}
+    $cascos = [];
+    if ($conn) {
+        $helper = new sqlHelper('Cascos', $conn);
+        $cascos = $helper->select();
+        if (!$cascos) $cascos = [];
+    }
 ?>
 
 <!DOCTYPE html>
@@ -139,41 +136,7 @@ if ($conn) {
                 </div>
             </div>
 
-            <!--
-            Loading
-            <div class="card" aria-hidden="true">
-            <img src="..." class="card-img-top" alt="...">
-            <div class="card-body">
-                <h5 class="card-title placeholder-glow">
-                <span class="placeholder col-6"></span>
-                </h5>
-                <p class="card-text placeholder-glow">
-                <span class="placeholder col-7"></span>
-                <span class="placeholder col-4"></span>
-                <span class="placeholder col-4"></span>
-                <span class="placeholder col-6"></span>
-                <span class="placeholder col-8"></span>
-                </p>
-                <a class="btn btn-primary disabled placeholder col-6" aria-disabled="true"></a>
-            </div>
-            </div>
-
-            Active
-            <div class="col-md-6 col-xl-4">
-            <div class="card card-custom h-100">
-                <img loading="lazy" src="https://placehold.co/400x300?text=Casco+2" class="card-img-top" alt="Casco 2">
-                <div class="card-body d-flex flex-column">
-                    <h5 class="card-title">Raptor 3000</h5>
-                    <p class="card-text text-muted mb-1">ECE 22.05</p>
-                    <p class="card-text small">Diseño aerodinámico para alta velocidad.</p>
-                    <div class="mt-auto">
-                        <h4 class="fw-bold mb-3" style="color: var(--primary-color);">$2,500.00</h4>
-                        <a href="detalle_casco.php" class="btn btn-outline-danger w-100">Ver Detalles</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-            -->
+            
 
             <div class="col-lg-9">
                 <div class="row g-4">
@@ -192,7 +155,7 @@ if ($conn) {
                                         <p class="card-text small"><?php echo htmlspecialchars(substr($casco['descripcion'], 0, 100)) . '...'; ?></p>
                                         <div class="mt-auto">
                                             <h4 class="fw-bold mb-3" style="color: var(--primary-color);">$<?php echo number_format($casco['precio_aprox'], 2); ?></h4>
-                                            <!-- Assuming detalle_casco.php takes an ID -->
+                                            
                                             <a href="detalle_casco.php?id=<?php echo $casco['id']; ?>" class="btn btn-outline-danger w-100">Ver Detalles</a>
                                         </div>
                                     </div>

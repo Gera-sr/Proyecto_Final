@@ -1,10 +1,9 @@
 <?php
 session_start();
 require_once __DIR__ . '/../Includes/basiccrud.php';
-$dbConnCreator = new myConnexion('db', 'proyecto', 'angel', '1234', 3306);
+$dbConnCreator = new myConnexion('localhost', 'proyecto', 'root', '', 3306);
 $conn = $dbConnCreator->connect();
 
-// Redirect if already logged in
 if (isset($_SESSION["user_id"])) {
     header("Location: inicio.php");
     exit();
@@ -19,23 +18,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         $helper = new sqlHelper('Usuarios', $conn);
 
-        // Search by username or email
-        // basiccrud select logic is a bit complex for OR conditions if not explicitly supported in helper for "OR"
-        // Looking at basiccrud.php: where logic is strictly AND for different keys.
-        // If I want OR, I might need to run two queries or modify helper. 
-        // For simplicity, I'll try to find by username first, if not found, try email.
-
         $userRecord = $helper->selectOne([], ['nombre_usuario' => $userInput]);
-        if (!$userRecord) {
-            $userRecord = $helper->selectOne([], ['email' => $userInput]);
-        }
 
-        if ($userRecord && password_verify($passInput, $userRecord['contrasena'])) {
+        if ($userRecord && $passInput === $userRecord['contrasena']) {
             $_SESSION['user_id'] = $userRecord['id'];
             $_SESSION['username'] = $userRecord['nombre_usuario'];
             $_SESSION['nombres'] = $userRecord['nombres'];
 
-            // Check if admin
             $adminHelper = new sqlHelper('Admins', $conn);
             $adminRecord = $adminHelper->selectOne([], ['user_id' => $userRecord['id']]);
 
@@ -116,8 +105,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         </div>
                         <form method="post">
                             <div class="mb-3">
-                                <label class="form-label">Usuario o correo electrónico</label>
-                                <input type="text" name="usuario" class="form-control" placeholder="usuario o correo" required>
+                                <label class="form-label">Usuario</label>
+                                <input type="text" name="usuario" class="form-control" placeholder="usuario" required>
                             </div>
 
                             <div class="mb-2">

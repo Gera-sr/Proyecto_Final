@@ -4,7 +4,6 @@ require_once __DIR__ . '/../Includes/basiccrud.php';
 $dbConnCreator = new myConnexion('localhost', 'proyecto', 'root', '', 3306);
 $conn = $dbConnCreator->connect();
 
-// Security check
 if (!isset($_SESSION['user_id']) || !isset($_SESSION['is_admin']) || !$_SESSION['is_admin']) {
     header("Location: login.php");
     exit();
@@ -12,10 +11,8 @@ if (!isset($_SESSION['user_id']) || !isset($_SESSION['is_admin']) || !$_SESSION[
 
 $message = "";
 
-// Handle POST requests
 if ($_SERVER["REQUEST_METHOD"] == "POST" && $conn) {
     if (isset($_POST['action'])) {
-        // --- HELMETS ---
         if ($_POST['action'] == 'create_casco' || $_POST['action'] == 'update_casco') {
             $helper = new sqlHelper('Cascos', $conn);
             $data = [
@@ -27,16 +24,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && $conn) {
                 'precio_aprox' => $_POST['precio']
             ];
 
-            // Image Handling (Selection)
-            $selected_image = $_POST['imagen_path'] ?? ''; // Expecting 'img/filename.ext'
+            $selected_image = $_POST['imagen_path'] ?? '';
             if (!empty($selected_image)) {
                 $data['imagen'] = $selected_image;
             } else {
-                // If it's update and no new image selected, keep old? 
-                // Currently simplified to just require selection or overwrite if selected.
-                // If creating, require it or default.
                 if ($_POST['action'] == 'create_casco' && empty($data['imagen']) && empty($selected_image)) {
-                    // Could set a default or just let it be empty/null
                 }
             }
 
@@ -56,10 +48,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && $conn) {
             $helper = new sqlHelper('Cascos', $conn);
             $helper->delete(['id' => $_POST['id']]);
             $message = "Casco eliminado.";
-        }
-
-        // --- ACCIDENTS ---
-        elseif ($_POST['action'] == 'create_accidente') {
+        } elseif ($_POST['action'] == 'create_accidente') {
             $helper = new sqlHelper('Accidentes', $conn);
             $data = [
                 'fecha' => $_POST['fecha'],
@@ -70,7 +59,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && $conn) {
                 'uso_casco' => isset($_POST['uso_casco']) ? 1 : 0,
                 'nivel_gravedad' => $_POST['gravedad']
             ];
-            // Image Handling for Accidents
             $selected_image = $_POST['imagen_path'] ?? '';
             if (!empty($selected_image)) {
                 $data['imagen_evidencia'] = $selected_image;
@@ -86,10 +74,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && $conn) {
             $helper = new sqlHelper('Accidentes', $conn);
             $helper->delete(['id' => $_POST['id']]);
             $message = "Registro eliminado.";
-        }
-
-        // --- FAQ ---
-        elseif ($_POST['action'] == 'create_faq') {
+        } elseif ($_POST['action'] == 'create_faq') {
             $helper = new sqlHelper('FAQ', $conn);
             $data = [
                 'pregunta' => $_POST['pregunta'],
@@ -106,7 +91,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && $conn) {
     }
 }
 
-// Fetch Data
 $cascos = [];
 $accidentes = [];
 $faqs = [];
@@ -124,7 +108,6 @@ if ($conn) {
     $faqs = $faqHelper->select([], [], ['orden' => 'ASC']);
     if (!$faqs) $faqs = [];
 
-    // --- NEW: Scan for images ---
     $available_images = [];
     $imgDir = __DIR__ . '/../img/';
     if (is_dir($imgDir)) {
@@ -176,7 +159,6 @@ if ($conn) {
         </div>
     </nav>
 
-    <!-- Admin Content -->
     <div class="container my-5">
         <h2 class="mb-4">Panel de Administración</h2>
 
@@ -187,7 +169,6 @@ if ($conn) {
             </div>
         <?php endif; ?>
 
-        <!-- Tabs -->
         <ul class="nav nav-tabs mb-4" id="adminTabs" role="tablist">
             <li class="nav-item">
                 <button class="nav-link active" id="cascos-tab" data-bs-toggle="tab" data-bs-target="#cascos"
@@ -205,7 +186,6 @@ if ($conn) {
 
         <div class="tab-content" id="adminTabsContent">
 
-            <!-- Cascos Tab -->
             <div class="tab-pane fade show active" id="cascos" role="tabpanel">
                 <div class="d-flex justify-content-between align-items-center mb-3">
                     <h4>Gestión de Cascos</h4>
@@ -233,7 +213,7 @@ if ($conn) {
                                     <td><?php echo htmlspecialchars($c['tipo']); ?></td>
                                     <td>$<?php echo number_format($c['precio_aprox'], 2); ?></td>
                                     <td>
-                                        <!-- Edit could be implemented by populating modal via JS, skipping for simplicity in this turn, or using a separate page -->
+                                        
                                         <form method="POST" class="d-inline" onsubmit="return confirm('¿Eliminar?');">
                                             <input type="hidden" name="action" value="delete_casco">
                                             <input type="hidden" name="id" value="<?php echo $c['id']; ?>">
@@ -247,7 +227,6 @@ if ($conn) {
                 </div>
             </div>
 
-            <!-- Accidentes Tab -->
             <div class="tab-pane fade" id="accidentes" role="tabpanel">
                 <div class="d-flex justify-content-between align-items-center mb-3">
                     <h4>Registro de Accidentes</h4>
@@ -285,7 +264,6 @@ if ($conn) {
                 </table>
             </div>
 
-            <!-- FAQ Tab -->
             <div class="tab-pane fade" id="faq" role="tabpanel">
                 <div class="d-flex justify-content-between align-items-center mb-3">
                     <h4>Preguntas Frecuentes</h4>
@@ -320,7 +298,7 @@ if ($conn) {
         </div>
     </div>
 
-    <!-- Modal Casco -->
+    
     <div class="modal fade" id="modalCasco" tabindex="-1">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
@@ -387,7 +365,7 @@ if ($conn) {
         </div>
     </div>
 
-    <!-- Modal Accidente -->
+    
     <div class="modal fade" id="modalAccidente" tabindex="-1">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
@@ -455,7 +433,7 @@ if ($conn) {
         </div>
     </div>
 
-    <!-- Modal FAQ -->
+    
     <div class="modal fade" id="modalFAQ" tabindex="-1">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -488,7 +466,6 @@ if ($conn) {
         </div>
     </div>
 
-    <!-- Footer -->
     <footer class="text-center mt-auto">
         <div class="container">
             <p>&copy; 2025 Chak - Panel Administrativo</p>
