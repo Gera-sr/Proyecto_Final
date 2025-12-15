@@ -1,7 +1,7 @@
 <?php
 session_start();
 require_once __DIR__ . '/../Includes/basiccrud.php';
-$dbConnCreator = new myConnexion('localhost', 'proyecto', 'root', '', 3306);
+$dbConnCreator = new myConnexion('db', 'proyecto', 'angel', '1234', 3306);
 $conn = $dbConnCreator->connect();
 
 $login_required = true;
