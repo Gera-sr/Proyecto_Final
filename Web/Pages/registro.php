@@ -25,49 +25,42 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $confirm_password = $_POST['confirm_password'] ?? '';
         $telefono = $_POST['telefono'] ?? '';
 
-        if ($password !== $confirm_password) {
+        if ($password !== $confirm_password)
+        {
             $user_register_error = "Las contraseñas no coinciden.";
-        } else {
+        }
+        else
+        {
             $helper = new sqlHelper('Usuarios', $conn);
+            $userData = [
+                'nombre_usuario' => $username,
+                'nombres' => $nombres,
+                'apellidos' => $apellidos,
+                'email' => $email,
+                'fecha_nacimiento' => $fecha_nacimiento,
+                'contrasena' => $password,
+                'numero_telefono' => $telefono
+            ];
 
-            if ($helper->count(['nombre_usuario' => $username]) > 0) {
-                $username_error = "Este nombre de usuario ya está registrado!";
-            }
-            if ($helper->count(['email' => $email]) > 0) {
-                $email_error = "Este correo ya está registrado!";
-            }
-            if ($helper->count(['numero_telefono' => $telefono]) > 0) {
-                $phone_error = "Este número de teléfono ya está registrado!";
-            }
-
-            if (empty($username_error) && empty($email_error) && empty($phone_error)) {
-                $userData = [
-                    'nombre_usuario' => $username,
-                    'nombres' => $nombres,
-                    'apellidos' => $apellidos,
-                    'email' => $email,
-                    'fecha_nacimiento' => $fecha_nacimiento,
-                    'contrasena' => $password,
-                    'numero_telefono' => $telefono
-                ];
-
-                try {
-                    $newId = $helper->insert_into($userData);
-                    if ($newId) {
-                        header("Location: login.php");
-                        exit();
-                    } else {
-                        $user_register_error = "Error al registrar. Intente de nuevo.";
-                    }
-                } catch (Exception $e) {
-                    $user_register_error = "Error: " . $e->getMessage();
+            try {
+                $newId = $helper->insert_into($userData);
+                if ($newId) {
+                    header("Location: login.php");
+                    exit();
+                } else {
+                    $user_register_error = "Error al registrar. Intente de nuevo.";
                 }
+            } catch (Exception $e) {
+                $user_register_error = "Error: " . $e->getMessage();
             }
         }
-    } else {
+    }
+    }
+    else
+    {
         $user_register_error = "Error de conexión.";
     }
-}
+
 ?>
 
 <!DOCTYPE html>
