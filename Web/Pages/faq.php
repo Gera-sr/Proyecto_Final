@@ -1,8 +1,6 @@
 <?php
 session_start();
-require_once __DIR__ . '/../Includes/basiccrud.php';
-$dbConnCreator = new myConnexion('localhost', 'proyecto', 'root', '', 3306);
-$conn = $dbConnCreator->connect();
+require_once __DIR__ . '/../Includes/config.php';
 
 $login_required = true;
 $admin = false;
@@ -20,7 +18,8 @@ $faqs = [];
 if ($conn) {
     $helper = new sqlHelper('FAQ', $conn);
     $faqs = $helper->select([], [], ['orden' => 'ASC']);
-    if (!$faqs) $faqs = [];
+    if (!$faqs)
+        $faqs = [];
 }
 ?>
 
@@ -66,7 +65,7 @@ if ($conn) {
                     <?php
                     if ($login_required) {
                         echo
-                        "<li class='nav-item'>
+                            "<li class='nav-item'>
                             <a class='nav-link' href='login.php'>Iniciar Sesión</a>
                         </li>
                         ";
@@ -81,11 +80,11 @@ if ($conn) {
                         ";
                         if ($admin) {
                             echo
-                            "<li><a class='dropdown-item' href='admin.php'>Admin</a></li>
+                                "<li><a class='dropdown-item' href='admin.php'>Admin</a></li>
                             </li>";
                         }
                         echo
-                        "<li><a class='dropdown-item' href='logout.php'>Cerrar Sesión</a></li>
+                            "<li><a class='dropdown-item' href='logout.php'>Cerrar Sesión</a></li>
                         </ul>
                         </li>";
                     }
@@ -114,13 +113,16 @@ if ($conn) {
                         <?php foreach ($faqs as $index => $faq): ?>
                             <div class="accordion-item">
                                 <h2 class="accordion-header" id="heading<?php echo $faq['id']; ?>">
-                                    <button class="accordion-button <?php echo $index !== 0 ? 'collapsed' : ''; ?>" type="button" data-bs-toggle="collapse"
-                                        data-bs-target="#collapse<?php echo $faq['id']; ?>" aria-expanded="<?php echo $index === 0 ? 'true' : 'false'; ?>"
+                                    <button class="accordion-button <?php echo $index !== 0 ? 'collapsed' : ''; ?>"
+                                        type="button" data-bs-toggle="collapse"
+                                        data-bs-target="#collapse<?php echo $faq['id']; ?>"
+                                        aria-expanded="<?php echo $index === 0 ? 'true' : 'false'; ?>"
                                         aria-controls="collapse<?php echo $faq['id']; ?>">
                                         <?php echo htmlspecialchars($faq['pregunta']); ?>
                                     </button>
                                 </h2>
-                                <div id="collapse<?php echo $faq['id']; ?>" class="accordion-collapse collapse <?php echo $index === 0 ? 'show' : ''; ?>"
+                                <div id="collapse<?php echo $faq['id']; ?>"
+                                    class="accordion-collapse collapse <?php echo $index === 0 ? 'show' : ''; ?>"
                                     aria-labelledby="heading<?php echo $faq['id']; ?>" data-bs-parent="#accordionFAQ">
                                     <div class="accordion-body">
                                         <?php echo nl2br(htmlspecialchars($faq['respuesta'])); ?>

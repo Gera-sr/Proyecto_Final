@@ -1,8 +1,6 @@
 <?php
 session_start();
-require_once __DIR__ . '/../Includes/basiccrud.php';
-$dbConnCreator = new myConnexion('localhost', 'proyecto', 'root', '', 3306);
-$conn = $dbConnCreator->connect();
+require_once __DIR__ . '/../Includes/config.php';
 
 $login_required = true;
 $admin = false;
@@ -93,7 +91,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <?php
                     if ($login_required) {
                         echo
-                        "<li class='nav-item'>
+                            "<li class='nav-item'>
                             <a class='nav-link' href='login.php'>Iniciar Sesión</a>
                         </li>
                         ";
@@ -108,11 +106,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         ";
                         if ($admin) {
                             echo
-                            "<li><a class='dropdown-item' href='admin.php'>Admin</a></li>
+                                "<li><a class='dropdown-item' href='admin.php'>Admin</a></li>
                             </li>";
                         }
                         echo
-                        "<li><a class='dropdown-item' href='logout.php'>Cerrar Sesión</a></li>
+                            "<li><a class='dropdown-item' href='logout.php'>Cerrar Sesión</a></li>
                         </ul>
                         </li>";
                     }
@@ -147,7 +145,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         </div>
                         <div class="mb-3">
                             <label class="form-label">Correo Electrónico</label>
-                            <input type="email" name="email" class="form-control" placeholder="tucorreo@ejemplo.com" required>
+                            <input type="email" name="email" class="form-control" placeholder="tucorreo@ejemplo.com"
+                                required>
                         </div>
                         <div class="mb-3">
                             <label class="form-label">Asunto</label>
@@ -155,7 +154,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         </div>
                         <div class="mb-3">
                             <label class="form-label">Mensaje</label>
-                            <textarea name="mensaje" class="form-control" rows="5" placeholder="Escribe tu mensaje aquí..." required></textarea>
+                            <textarea name="mensaje" class="form-control" rows="5"
+                                placeholder="Escribe tu mensaje aquí..." required></textarea>
                         </div>
                         <button type="submit" class="btn btn-primary-custom px-5">Enviar</button>
                     </form>
@@ -167,7 +167,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <h4 class="mb-3" style="color: var(--primary-color);">Información de Contacto</h4>
                     <ul class="list-unstyled">
                         <li class="mb-3"><i class="fas fa-map-marker-alt me-3"
-                                style="color: var(--secondary-color);"></i>Calle con direcciony numero, Ciudad, México</li>
+                                style="color: var(--secondary-color);"></i>Calle con direcciony numero, Ciudad, México
+                        </li>
                         <li class="mb-3"><i class="fas fa-phone me-3" style="color: var(--secondary-color);"></i>+52 123
                             456 7890</li>
                         <li class="mb-3"><i class="fas fa-envelope me-3"
@@ -178,7 +179,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <div class="card p-4">
                     <h4 class="mb-2" style="color: var(--primary-color);">Acerca de Nosotros</h4>
                     <p>Somos una iniciativa dedicada a promover la seguridad vial.</p>
-                    <p>Nuestro objetivo es promover el uso adecuado del casco y fomentar hábitos de conducción responsable para reducir accidentes y proteger la integridad de los motociclistas, y así, reducir el índice de lesiones en accidentes de motocicleta proporcionando equipo de protección accesible y confiable.</p>
+                    <p>Nuestro objetivo es promover el uso adecuado del casco y fomentar hábitos de conducción
+                        responsable para reducir accidentes y proteger la integridad de los motociclistas, y así,
+                        reducir el índice de lesiones en accidentes de motocicleta proporcionando equipo de protección
+                        accesible y confiable.</p>
                 </div>
             </div>
         </div>

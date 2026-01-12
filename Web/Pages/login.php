@@ -1,8 +1,6 @@
 <?php
 session_start();
-require_once __DIR__ . '/../Includes/basiccrud.php';
-$dbConnCreator = new myConnexion('localhost', 'proyecto', 'root', '', 3306);
-$conn = $dbConnCreator->connect();
+require_once __DIR__ . '/../Includes/config.php';
 
 if (isset($_SESSION["user_id"])) {
     header("Location: inicio.php");
@@ -111,11 +109,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                             <div class="mb-2">
                                 <label class="form-label">Contraseña</label>
-                                <input type="password" name="password" class="form-control" placeholder="••••••••" required>
+                                <input type="password" name="password" class="form-control" placeholder="••••••••"
+                                    required>
                             </div>
 
                             <div class="text-end mb-4">
-                                <a href="#" style="color: var(--primary-color); font-size: 0.9rem;">
+                                <a href="forgot_password.php" style="color: var(--primary-color); font-size: 0.9rem;">
                                     ¿Olvidaste tu contraseña?
                                 </a>
                             </div>

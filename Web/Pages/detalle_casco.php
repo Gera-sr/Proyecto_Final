@@ -1,8 +1,6 @@
 <?php
 session_start();
-require_once __DIR__ . '/../Includes/basiccrud.php';
-$dbConnCreator = new myConnexion('localhost', 'proyecto', 'root', '', 3306);
-$conn = $dbConnCreator->connect();
+require_once __DIR__ . '/../Includes/config.php';
 
 $login_required = true;
 $admin = false;
@@ -73,7 +71,7 @@ if (!$casco) {
                     <?php
                     if ($login_required) {
                         echo
-                        "<li class='nav-item'>
+                            "<li class='nav-item'>
                             <a class='nav-link' href='login.php'>Iniciar Sesión</a>
                         </li>
                         ";
@@ -88,11 +86,11 @@ if (!$casco) {
                         ";
                         if ($admin) {
                             echo
-                            "<li><a class='dropdown-item' href='admin.php'>Admin</a></li>
+                                "<li><a class='dropdown-item' href='admin.php'>Admin</a></li>
                             </li>";
                         }
                         echo
-                        "<li><a class='dropdown-item' href='logout.php'>Cerrar Sesión</a></li>
+                            "<li><a class='dropdown-item' href='logout.php'>Cerrar Sesión</a></li>
                         </ul>
                         </li>";
                     }
@@ -114,7 +112,8 @@ if (!$casco) {
                 </h2>
                 <div class="mb-3">
                     <span class="badge bg-secondary me-2"><?php echo htmlspecialchars($casco['tipo']); ?></span>
-                    <span class="badge bg-info text-dark"><?php echo htmlspecialchars($casco['certificacion']); ?></span>
+                    <span
+                        class="badge bg-info text-dark"><?php echo htmlspecialchars($casco['certificacion']); ?></span>
                 </div>
                 <h3 class="text-danger mb-4">$<?php echo number_format($casco['precio_aprox'], 2); ?></h3>
 
@@ -124,7 +123,8 @@ if (!$casco) {
                 </p>
 
                 <div class="mt-5">
-                    <button class="btn btn-primary-custom btn-lg w-100 mb-3"><i class="fas fa-shopping-cart me-2"></i>Dónde Comprar</button>
+                    <button class="btn btn-primary-custom btn-lg w-100 mb-3"><i
+                            class="fas fa-shopping-cart me-2"></i>Dónde Comprar</button>
                     <a href="lista_cascos.php" class="btn btn-outline-secondary w-100">Volver al listado</a>
                 </div>
             </div>

@@ -1,8 +1,6 @@
 <?php
 session_start();
-require_once __DIR__ . '/../Includes/basiccrud.php';
-$dbConnCreator = new myConnexion('localhost', 'proyecto', 'root', '', 3306);
-$conn = $dbConnCreator->connect();
+require_once __DIR__ . '/../Includes/config.php';
 
 if (isset($_SESSION["user_id"])) {
     header("Location: inicio.php");
@@ -25,12 +23,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $confirm_password = $_POST['confirm_password'] ?? '';
         $telefono = $_POST['telefono'] ?? '';
 
-        if ($password !== $confirm_password)
-        {
+        if ($password !== $confirm_password) {
             $user_register_error = "Las contraseñas no coinciden.";
-        }
-        else
-        {
+        } else {
             $helper = new sqlHelper('Usuarios', $conn);
             $userData = [
                 'nombre_usuario' => $username,
@@ -55,11 +50,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             }
         }
     }
-    }
-    else
-    {
-        $user_register_error = "Error de conexión.";
-    }
+} else {
+    $user_register_error = "Error de conexión.";
+}
 
 ?>
 
@@ -125,10 +118,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                             <div class="mb-3">
                                 <label class="form-label">Nombre de usuario</label>
-                                <input type="text" name="username" class="form-control" placeholder="Ej. usuario" required>
+                                <input type="text" name="username" class="form-control" placeholder="Ej. usuario"
+                                    required>
                             </div>
                             <?php
-                            if ($username_error) echo "<p class='text-danger'>$username_error</p>";
+                            if ($username_error)
+                                echo "<p class='text-danger'>$username_error</p>";
                             ?>
 
                             <div class="mb-3">
@@ -138,15 +133,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                             <div class="mb-3">
                                 <label class="form-label">Apellidos</label>
-                                <input type="text" name="apellidos" class="form-control" placeholder="Tus apellidos" required>
+                                <input type="text" name="apellidos" class="form-control" placeholder="Tus apellidos"
+                                    required>
                             </div>
 
                             <div class="mb-3">
                                 <label class="form-label">Correo electrónico</label>
-                                <input type="email" name="email" class="form-control" placeholder="correo@ejemplo.com" required>
+                                <input type="email" name="email" class="form-control" placeholder="correo@ejemplo.com"
+                                    required>
                             </div>
                             <?php
-                            if ($email_error) echo "<p class='text-danger'>$email_error</p>";
+                            if ($email_error)
+                                echo "<p class='text-danger'>$email_error</p>";
                             ?>
 
                             <div class="mb-3">
@@ -156,19 +154,23 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                             <div class="mb-3">
                                 <label class="form-label">Contraseña</label>
-                                <input type="password" name="password" class="form-control" placeholder="••••••••" required>
+                                <input type="password" name="password" class="form-control" placeholder="••••••••"
+                                    required>
                             </div>
                             <div class="mb-3">
                                 <label class="form-label">Repita su Contraseña</label>
-                                <input type="password" name="confirm_password" class="form-control" placeholder="••••••••" required>
+                                <input type="password" name="confirm_password" class="form-control"
+                                    placeholder="••••••••" required>
                             </div>
 
                             <div class="mb-4">
                                 <label class="form-label">Número de teléfono</label>
-                                <input type="tel" name="telefono" class="form-control" placeholder="Ej. +5212345678" required>
+                                <input type="tel" name="telefono" class="form-control" placeholder="Ej. +5212345678"
+                                    required>
                             </div>
                             <?php
-                            if ($phone_error) echo "<p class='text-danger'>$phone_error</p>";
+                            if ($phone_error)
+                                echo "<p class='text-danger'>$phone_error</p>";
                             ?>
 
                             <div class="d-grid">
@@ -176,7 +178,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                     Registrarse
                                 </button>
                                 <?php
-                                if ($user_register_error) echo "<p class='text-danger text-center'>Error al registrar usuario: $user_register_error</p>";
+                                if ($user_register_error)
+                                    echo "<p class='text-danger text-center'>Error al registrar usuario: $user_register_error</p>";
                                 ?>
                             </div>
                         </form>

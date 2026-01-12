@@ -1,8 +1,6 @@
 <?php
 session_start();
-require_once __DIR__ . '/../Includes/basiccrud.php';
-$dbConnCreator = new myConnexion('localhost', 'proyecto', 'root', '', 3306);
-$conn = $dbConnCreator->connect();
+require_once __DIR__ . '/../Includes/config.php';
 $login_required = true;
 $admin = false;
 $user = "";
@@ -15,12 +13,13 @@ if (isset($_SESSION["user_id"])) {
     }
 }
 
-    $cascos = [];
-    if ($conn) {
-        $helper = new sqlHelper('Cascos', $conn);
-        $cascos = $helper->select();
-        if (!$cascos) $cascos = [];
-    }
+$cascos = [];
+if ($conn) {
+    $helper = new sqlHelper('Cascos', $conn);
+    $cascos = $helper->select();
+    if (!$cascos)
+        $cascos = [];
+}
 ?>
 
 <!DOCTYPE html>
@@ -68,7 +67,7 @@ if (isset($_SESSION["user_id"])) {
                     <?php
                     if ($login_required) {
                         echo
-                        "<li class='nav-item'>
+                            "<li class='nav-item'>
                             <a class='nav-link' href='login.php'>Iniciar Sesión</a>
                         </li>
                         ";
@@ -83,11 +82,11 @@ if (isset($_SESSION["user_id"])) {
                         ";
                         if ($admin) {
                             echo
-                            "<li><a class='dropdown-item' href='admin.php'>Admin</a></li>
+                                "<li><a class='dropdown-item' href='admin.php'>Admin</a></li>
                             </li>";
                         }
                         echo
-                        "<li><a class='dropdown-item' href='logout.php'>Cerrar Sesión</a></li>
+                            "<li><a class='dropdown-item' href='logout.php'>Cerrar Sesión</a></li>
                         </ul>
                         </li>";
                     }
@@ -136,7 +135,7 @@ if (isset($_SESSION["user_id"])) {
                 </div>
             </div>
 
-            
+
 
             <div class="col-lg-9">
                 <div class="row g-4">
@@ -148,15 +147,25 @@ if (isset($_SESSION["user_id"])) {
                         <?php foreach ($cascos as $casco): ?>
                             <div class="col-md-6 col-xl-4">
                                 <div class="card card-custom h-100">
-                                    <img loading="lazy" src="<?php echo htmlspecialchars($casco['imagen'] ?? 'https://placehold.co/400x300?text=No+Image'); ?>" class="card-img-top" alt="<?php echo htmlspecialchars($casco['modelo']); ?>">
+                                    <img loading="lazy"
+                                        src="<?php echo htmlspecialchars($casco['imagen'] ?? 'https://placehold.co/400x300?text=No+Image'); ?>"
+                                        class="card-img-top" alt="<?php echo htmlspecialchars($casco['modelo']); ?>">
                                     <div class="card-body d-flex flex-column">
-                                        <h5 class="card-title"><?php echo htmlspecialchars($casco['marca'] . ' ' . $casco['modelo']); ?></h5>
-                                        <p class="card-text text-muted mb-1"><?php echo htmlspecialchars($casco['certificacion']); ?></p>
-                                        <p class="card-text small"><?php echo htmlspecialchars(substr($casco['descripcion'], 0, 100)) . '...'; ?></p>
+                                        <h5 class="card-title">
+                                            <?php echo htmlspecialchars($casco['marca'] . ' ' . $casco['modelo']); ?>
+                                        </h5>
+                                        <p class="card-text text-muted mb-1">
+                                            <?php echo htmlspecialchars($casco['certificacion']); ?>
+                                        </p>
+                                        <p class="card-text small">
+                                            <?php echo htmlspecialchars(substr($casco['descripcion'], 0, 100)) . '...'; ?>
+                                        </p>
                                         <div class="mt-auto">
-                                            <h4 class="fw-bold mb-3" style="color: var(--primary-color);">$<?php echo number_format($casco['precio_aprox'], 2); ?></h4>
-                                            
-                                            <a href="detalle_casco.php?id=<?php echo $casco['id']; ?>" class="btn btn-outline-danger w-100">Ver Detalles</a>
+                                            <h4 class="fw-bold mb-3" style="color: var(--primary-color);">
+                                                $<?php echo number_format($casco['precio_aprox'], 2); ?></h4>
+
+                                            <a href="detalle_casco.php?id=<?php echo $casco['id']; ?>"
+                                                class="btn btn-outline-danger w-100">Ver Detalles</a>
                                         </div>
                                     </div>
                                 </div>

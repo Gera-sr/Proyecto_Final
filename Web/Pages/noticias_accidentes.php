@@ -1,8 +1,6 @@
 <?php
 session_start();
-require_once __DIR__ . '/../Includes/basiccrud.php';
-$dbConnCreator = new myConnexion('localhost', 'proyecto', 'root', '', 3306);
-$conn = $dbConnCreator->connect();
+require_once __DIR__ . '/../Includes/config.php';
 
 $login_required = true;
 $admin = false;
@@ -16,12 +14,13 @@ if (isset($_SESSION["user_id"])) {
     }
 }
 
-    $accidentes = [];
-    if ($conn) {
-        $helper = new sqlHelper('Accidentes', $conn);
-        $accidentes = $helper->select([], [], ['fecha' => 'DESC']);
-        if (!$accidentes) $accidentes = [];
-    }
+$accidentes = [];
+if ($conn) {
+    $helper = new sqlHelper('Accidentes', $conn);
+    $accidentes = $helper->select([], [], ['fecha' => 'DESC']);
+    if (!$accidentes)
+        $accidentes = [];
+}
 ?>
 
 <!DOCTYPE html>
@@ -66,7 +65,7 @@ if (isset($_SESSION["user_id"])) {
                     <?php
                     if ($login_required) {
                         echo
-                        "<li class='nav-item'>
+                            "<li class='nav-item'>
                             <a class='nav-link' href='login.php'>Iniciar Sesión</a>
                         </li>
                         ";
@@ -81,11 +80,11 @@ if (isset($_SESSION["user_id"])) {
                         ";
                         if ($admin) {
                             echo
-                            "<li><a class='dropdown-item' href='admin.php'>Admin</a></li>
+                                "<li><a class='dropdown-item' href='admin.php'>Admin</a></li>
                             </li>";
                         }
                         echo
-                        "<li><a class='dropdown-item' href='logout.php'>Cerrar Sesión</a></li>
+                            "<li><a class='dropdown-item' href='logout.php'>Cerrar Sesión</a></li>
                         </ul>
                         </li>";
                     }
@@ -113,22 +112,27 @@ if (isset($_SESSION["user_id"])) {
                     <div class="col-md-6 col-lg-4">
                         <div class="card h-100 shadow-sm border-0">
                             <?php if (!empty($accidente['imagen_evidencia'])): ?>
-                                <img src="<?php echo htmlspecialchars($accidente['imagen_evidencia']); ?>" class="card-img-top" alt="Evidencia" style="height: 200px; object-fit: cover;">
+                                <img src="<?php echo htmlspecialchars($accidente['imagen_evidencia']); ?>" class="card-img-top"
+                                    alt="Evidencia" style="height: 200px; object-fit: cover;">
                             <?php else: ?>
-                                <div class="bg-secondary text-white d-flex align-items-center justify-content-center" style="height: 200px;">
+                                <div class="bg-secondary text-white d-flex align-items-center justify-content-center"
+                                    style="height: 200px;">
                                     <i class="fas fa-camera-retro fa-3x"></i>
                                 </div>
                             <?php endif; ?>
 
                             <div class="card-body">
                                 <div class="d-flex justify-content-between align-items-start mb-2">
-                                    <h5 class="card-title text-danger mb-0"><i class="fas fa-exclamation-triangle me-2"></i>Accidente</h5>
-                                    <span class="badge <?php echo $accidente['nivel_gravedad'] == 'Alta' ? 'bg-danger' : ($accidente['nivel_gravedad'] == 'Media' ? 'bg-warning text-dark' : 'bg-success'); ?>">
+                                    <h5 class="card-title text-danger mb-0"><i
+                                            class="fas fa-exclamation-triangle me-2"></i>Accidente</h5>
+                                    <span
+                                        class="badge <?php echo $accidente['nivel_gravedad'] == 'Alta' ? 'bg-danger' : ($accidente['nivel_gravedad'] == 'Media' ? 'bg-warning text-dark' : 'bg-success'); ?>">
                                         <?php echo htmlspecialchars($accidente['nivel_gravedad'] ?? 'N/A'); ?>
                                     </span>
                                 </div>
                                 <h6 class="card-subtitle mb-2 text-muted">
-                                    <i class="far fa-calendar-alt me-1"></i> <?php echo date('d/m/Y', strtotime($accidente['fecha'])); ?>
+                                    <i class="far fa-calendar-alt me-1"></i>
+                                    <?php echo date('d/m/Y', strtotime($accidente['fecha'])); ?>
                                 </h6>
                                 <p class="card-text small mb-2">
                                     <strong>Lugar:</strong> <?php echo htmlspecialchars($accidente['lugar']); ?>
@@ -139,7 +143,9 @@ if (isset($_SESSION["user_id"])) {
                                 <ul class="list-unstyled small text-muted mt-3">
                                     <li><strong>Causa:</strong> <?php echo htmlspecialchars($accidente['causa']); ?></li>
                                     <li><strong>Lesionados:</strong> <?php echo $accidente['lesionados']; ?></li>
-                                    <li><strong>Uso de Casco:</strong> <?php echo $accidente['uso_casco'] ? '<span class="text-success">Sí</span>' : '<span class="text-danger">No</span>'; ?></li>
+                                    <li><strong>Uso de Casco:</strong>
+                                        <?php echo $accidente['uso_casco'] ? '<span class="text-success">Sí</span>' : '<span class="text-danger">No</span>'; ?>
+                                    </li>
                                 </ul>
                             </div>
                         </div>
